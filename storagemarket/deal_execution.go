@@ -7,6 +7,7 @@ import (
 	"os"
 	"time"
 
+	"github.com/filecoin-project/boost/lib/localreader"
 	"github.com/filecoin-project/boost/storagemarket/types"
 	smtypes "github.com/filecoin-project/boost/storagemarket/types"
 	"github.com/filecoin-project/boost/storagemarket/types/dealcheckpoints"
@@ -528,7 +529,9 @@ func (p *Provider) addPiece(ctx context.Context, pub event.Emitter, deal *types.
 			error: fmt.Errorf("failed to get data reader over CAR file: %w", err),
 		}
 	}
-	paddedReader, err := padreader.NewInflator(r, size, proposal.PieceSize.Unpadded())
+
+	paddedSize := proposal.PieceSize.Unpadded()
+	paddedReader, err := padreader.NewInflator(r, size, paddedSize)
 	if err != nil {
 		return &dealMakingError{
 			retry: types.DealRetryFatal,
@@ -536,8 +539,11 @@ func (p *Provider) addPiece(ctx context.Context, pub event.Emitter, deal *types.
 		}
 	}
 
+	// lgh: hook here!
+	localPaddedReader := localreader.NewWithPaddedReader(deal.InboundFilePath, uint64(paddedSize), paddedReader)
+
 	// Add the piece to a sector
-	packingInfo, packingErr := p.AddPieceToSector(ctx, *deal, paddedReader)
+	packingInfo, packingErr := p.AddPieceToSector(ctx, *deal, localPaddedReader)
 	if packingErr != nil {
 		if ctx.Err() != nil {
 			p.dealLogger.Warnw(deal.DealUuid, "context timed out while trying to add piece")

@@ -12,12 +12,14 @@ import (
 	"path"
 	"reflect"
 	"strconv"
+	"strings"
 	"sync"
 	"time"
 
 	"github.com/google/uuid"
 	logging "github.com/ipfs/go-log/v2"
 
+	"github.com/filecoin-project/boost/lib/localreader"
 	"github.com/filecoin-project/go-jsonrpc"
 	"github.com/filecoin-project/go-state-types/abi"
 	"github.com/filecoin-project/lotus/storage/pipeline/lib/nullreader"
@@ -32,6 +34,8 @@ type StreamType string
 const (
 	Null       StreamType = "null"
 	PushStream StreamType = "push"
+
+	LocalCarReader StreamType = "localcar"
 	// TODO: Data transfer handoff to workers?
 )
 
@@ -102,6 +106,10 @@ func ReaderParamEncoder(addr string) jsonrpc.Option {
 
 		if r, ok := r.(*nullreader.NullReader); ok {
 			return reflect.ValueOf(ReaderStream{Type: Null, Info: fmt.Sprint(r.N)}), nil
+		}
+
+		if r, ok := r.(*localreader.CarReader); ok {
+			return reflect.ValueOf(ReaderStream{Type: LocalCarReader, Info: fmt.Sprintf("%s;%d", r.URL, r.PaddSize)}), nil
 		}
 
 		reqID := uuid.New()
@@ -410,6 +418,27 @@ func ReaderParamDecoder() (http.HandlerFunc, jsonrpc.ServerOption) {
 			}
 
 			return reflect.ValueOf(nullreader.NewNullReader(abi.UnpaddedPieceSize(n))), nil
+		}
+
+		if rs.Type == LocalCarReader {
+			pp := strings.Split(rs.Info, ";")
+			if len(pp) != 2 {
+				return reflect.Value{}, fmt.Errorf("new local carfile reader failed rs.Info format error:%s", rs.Info)
+			}
+
+			p := pp[0]
+			paddedSize, err := strconv.ParseUint(pp[1], 10, 64)
+			if err != nil {
+				return reflect.Value{}, fmt.Errorf("new local carfile reader failed rs.Info pad size parse error:%w, info:%s", err, rs.Info)
+			}
+
+			log.Infof("decode local carfile reader with path:%s, padded size:%d", p, paddedSize)
+			r, err := localreader.NewWithPath(p, paddedSize)
+			if err != nil {
+				return reflect.Value{}, fmt.Errorf("new local carfile reader failed: %w, path:%s", err, rs.Info)
+			}
+
+			return reflect.ValueOf(r), nil
 		}
 
 		u, err := uuid.Parse(rs.Info)
