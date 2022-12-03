@@ -560,7 +560,7 @@ func (p *Provider) addPiece(ctx context.Context, pub event.Emitter, deal *types.
 			error: fmt.Errorf("packing piece %s: %w", proposal.PieceCID, packingErr),
 		}
 	}
-
+	fmt.Printf("lgh:Provider.AddPieceToSector call completed")
 	deal.SectorID = packingInfo.SectorNumber
 	deal.Offset = packingInfo.Offset
 	deal.Length = packingInfo.Size
