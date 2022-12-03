@@ -540,6 +540,7 @@ func (p *Provider) addPiece(ctx context.Context, pub event.Emitter, deal *types.
 	}
 
 	// lgh: hook here!
+	log.Infof("create local car reader for:%s, padded size:%d", deal.InboundFilePath, uint64(paddedSize))
 	localPaddedReader := localreader.NewWithPaddedReader(deal.InboundFilePath, uint64(paddedSize), paddedReader)
 
 	// Add the piece to a sector
