@@ -19,9 +19,9 @@ import (
 	"github.com/google/uuid"
 	logging "github.com/ipfs/go-log/v2"
 
-	"github.com/filecoin-project/boost/lib/localreader"
 	"github.com/filecoin-project/go-jsonrpc"
 	"github.com/filecoin-project/go-state-types/abi"
+	"github.com/filecoin-project/lotus/lib/localreader"
 	"github.com/filecoin-project/lotus/storage/pipeline/lib/nullreader"
 )
 

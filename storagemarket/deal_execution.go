@@ -7,7 +7,6 @@ import (
 	"os"
 	"time"
 
-	"github.com/filecoin-project/boost/lib/localreader"
 	"github.com/filecoin-project/boost/storagemarket/types"
 	smtypes "github.com/filecoin-project/boost/storagemarket/types"
 	"github.com/filecoin-project/boost/storagemarket/types/dealcheckpoints"
@@ -20,6 +19,7 @@ import (
 	"github.com/filecoin-project/go-state-types/abi"
 	acrypto "github.com/filecoin-project/go-state-types/crypto"
 	lapi "github.com/filecoin-project/lotus/api"
+	"github.com/filecoin-project/lotus/lib/localreader"
 	sealing "github.com/filecoin-project/lotus/storage/pipeline"
 	"github.com/google/uuid"
 	carv2 "github.com/ipld/go-car/v2"
