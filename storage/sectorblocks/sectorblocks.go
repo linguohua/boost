@@ -101,7 +101,7 @@ func (st *SectorBlocks) writeRef(ctx context.Context, dealID abi.DealID, sectorI
 }
 
 func (st *SectorBlocks) AddPiece(ctx context.Context, size abi.UnpaddedPieceSize, r io.Reader, d api.PieceDealInfo) (abi.SectorNumber, abi.PaddedPieceSize, error) {
-	fmt.Printf("lgh:SectorBlocks.AddPiece called")
+	fmt.Printf("lgh:SectorBlocks.AddPiece called\n")
 	so, err := st.SectorBuilder.SectorAddPieceToAny(ctx, size, r, d)
 	if err != nil {
 		return 0, 0, err

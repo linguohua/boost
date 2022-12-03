@@ -592,7 +592,7 @@ func (p *Provider) AddPieceToSector(ctx context.Context, deal smtypes.ProviderDe
 
 	// Attempt to add the piece to a sector (repeatedly if necessary)
 	pieceSize := deal.ClientDealProposal.Proposal.PieceSize.Unpadded()
-	fmt.Printf("lgh:Provider.AddPieceToSector call pieceAdder.AddPiece")
+	fmt.Printf("lgh:Provider.AddPieceToSector call pieceAdder.AddPiece\n")
 	sectorNum, offset, err := p.pieceAdder.AddPiece(ctx, pieceSize, pieceData, sdInfo)
 	curTime := build.Clock.Now()
 
