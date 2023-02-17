@@ -20,7 +20,7 @@ require (
 	github.com/etclabscore/go-openrpc-reflect v0.0.36
 	github.com/fatih/color v1.13.0
 	github.com/filecoin-project/dagstore v0.6.0
-	github.com/filecoin-project/go-address v1.0.0
+	github.com/filecoin-project/go-address v1.1.0
 	github.com/filecoin-project/go-bitfield v0.2.4
 	github.com/filecoin-project/go-cbor-util v0.0.1
 	github.com/filecoin-project/go-commp-utils v0.1.3
@@ -32,7 +32,7 @@ require (
 	github.com/filecoin-project/go-legs v0.4.9
 	github.com/filecoin-project/go-padreader v0.0.1
 	github.com/filecoin-project/go-paramfetch v0.0.4
-	github.com/filecoin-project/go-state-types v0.9.9
+	github.com/filecoin-project/go-state-types v0.10.0-alpha-2
 	github.com/filecoin-project/go-statestore v0.2.0
 	github.com/filecoin-project/lotus v1.18.3-0.20230110150616-2995a530dcc7
 	github.com/filecoin-project/specs-actors v0.9.15
@@ -147,8 +147,6 @@ require (
 	github.com/drand/drand v1.3.0 // indirect
 	github.com/drand/kyber v1.1.7 // indirect
 	github.com/drand/kyber-bls12381 v0.2.1 // indirect
-	github.com/elastic/go-sysinfo v1.7.0 // indirect
-	github.com/elastic/go-windows v1.0.0 // indirect
 	github.com/elastic/gosigar v0.14.2 // indirect
 	github.com/etclabscore/go-jsonschema-walk v0.0.6 // indirect
 	github.com/filecoin-project/filecoin-ffi v0.30.4-0.20200910194244-f640612a1a1f // indirect
@@ -232,7 +230,6 @@ require (
 	github.com/jbenet/goprocess v0.1.4 // indirect
 	github.com/jellydator/ttlcache/v2 v2.11.1 // indirect
 	github.com/jessevdk/go-flags v1.4.0 // indirect
-	github.com/joeshaw/multierror v0.0.0-20140124173710-69b34d4ec901 // indirect
 	github.com/josharian/intern v1.0.0 // indirect
 	github.com/kilic/bls12-381 v0.0.0-20200820230200-6b2c19996391 // indirect
 	github.com/klauspost/compress v1.15.10 // indirect
@@ -334,7 +331,6 @@ require (
 	gopkg.in/tomb.v1 v1.0.0-20141024135613-dd632973f1e7 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
-	howett.net/plist v0.0.0-20181124034731-591f970eefbb // indirect
 	lukechampine.com/blake3 v1.1.7 // indirect
 )
 
@@ -342,7 +338,22 @@ require github.com/ipfs/go-ds-flatfs v0.5.1
 
 require (
 	github.com/alexbrainman/goissue34681 v0.0.0-20191006012335-3fc7a47baff5 // indirect
+	github.com/armon/go-metrics v0.3.9 // indirect
+	github.com/boltdb/bolt v1.3.1 // indirect
+	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
+	github.com/filecoin-project/index-provider v0.8.1 // indirect
+	github.com/filecoin-project/storetheindex v0.4.17 // indirect
+	github.com/go-redis/redis/v8 v8.11.5 // indirect
 	github.com/grpc-ecosystem/go-grpc-middleware v1.3.0 // indirect
+	github.com/hashicorp/go-hclog v0.16.2 // indirect
+	github.com/hashicorp/go-immutable-radix v1.3.1 // indirect
+	github.com/hashicorp/go-msgpack v0.5.5 // indirect
+	github.com/hashicorp/raft v1.1.1 // indirect
+	github.com/hashicorp/raft-boltdb v0.0.0-20171010151810-6e5ba93211ea // indirect
+	github.com/libp2p/go-libp2p-consensus v0.0.1 // indirect
+	github.com/libp2p/go-libp2p-gorpc v0.4.0 // indirect
+	github.com/libp2p/go-libp2p-raft v0.1.8 // indirect
+	github.com/ugorji/go/codec v1.2.6 // indirect
 	go.etcd.io/bbolt v1.3.6 // indirect
 	golang.org/x/lint v0.0.0-20210508222113-6edffad5e616 // indirect
 )
