@@ -4,7 +4,7 @@ go 1.18
 
 replace github.com/filecoin-project/filecoin-ffi => ./extern/filecoin-ffi
 
-// replace github.com/filecoin-project/lotus => ../lotus
+replace github.com/filecoin-project/lotus => ../lotus
 
 require (
 	contrib.go.opencensus.io/exporter/prometheus v0.4.0
