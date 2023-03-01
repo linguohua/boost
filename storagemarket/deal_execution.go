@@ -535,8 +535,8 @@ func (p *Provider) addPiece(ctx context.Context, pub event.Emitter, deal *types.
 		}
 	}
 
-	paddedSize := proposal.PieceSize.Unpadded()
-	paddedReader, err := padreader.NewInflator(r, size, paddedSize)
+	unPaddedSize := proposal.PieceSize.Unpadded()
+	unPaddedReader, err := padreader.NewInflator(r, size, unPaddedSize)
 	if err != nil {
 		return &dealMakingError{
 			retry: types.DealRetryFatal,
@@ -545,8 +545,8 @@ func (p *Provider) addPiece(ctx context.Context, pub event.Emitter, deal *types.
 	}
 
 	// lgh: hook here!
-	log.Infof("create local car reader for:%s, padded size:%d", deal.InboundFilePath, uint64(paddedSize))
-	localPaddedReader := localreader.NewWithPaddedReader(deal.InboundFilePath, uint64(paddedSize), paddedReader)
+	log.Infof("create local car reader for:%s, padded size:%d", deal.InboundFilePath, uint64(unPaddedSize))
+	localPaddedReader := localreader.NewWithUnPaddedReader(deal.InboundFilePath, uint64(unPaddedSize), unPaddedReader)
 
 	// Add the piece to a sector
 	packingInfo, packingErr := p.AddPieceToSector(ctx, *deal, localPaddedReader)
