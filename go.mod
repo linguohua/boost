@@ -2,11 +2,11 @@ module github.com/filecoin-project/boost
 
 go 1.18
 
-replace github.com/filecoin-project/filecoin-ffi => ./extern/filecoin-ffi
+replace github.com/filecoin-project/filecoin-ffi => ../lotus/extern/filecoin-ffi
 
 replace github.com/filecoin-project/boostd-data => ./extern/boostd-data
 
-// replace github.com/filecoin-project/lotus => ../lotus
+replace github.com/filecoin-project/lotus => ../lotus
 
 require (
 	contrib.go.opencensus.io/exporter/prometheus v0.4.0
