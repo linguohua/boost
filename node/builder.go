@@ -202,7 +202,6 @@ func defaults() []Option {
 		Override(new(lotus_journal.Journal), lotus_modules.OpenFilesystemJournal),
 		Override(new(*alerting.Alerting), alerting.NewAlertingSystem),
 		Override(new(lotus_dtypes.NodeStartTime), FromVal(lotus_dtypes.NodeStartTime(time.Now()))),
-
 		Override(CheckFDLimit, lotus_modules.CheckFdLimit(build.DefaultFDLimit)),
 
 		Override(new(system.MemoryConstraints), modules.MemoryConstraints),

@@ -6,7 +6,7 @@ replace github.com/filecoin-project/filecoin-ffi => ./extern/filecoin-ffi
 
 replace github.com/filecoin-project/boostd-data => ./extern/boostd-data
 
-// replace github.com/filecoin-project/lotus => ../lotus
+replace github.com/filecoin-project/lotus => ../lotus
 
 // replace github.com/filcoin-project/boost-graphsync => ../boost-graphsync
 
