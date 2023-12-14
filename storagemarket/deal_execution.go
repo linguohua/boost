@@ -19,6 +19,7 @@ import (
 	"github.com/filecoin-project/go-state-types/abi"
 	acrypto "github.com/filecoin-project/go-state-types/crypto"
 	lapi "github.com/filecoin-project/lotus/api"
+	"github.com/filecoin-project/lotus/lib/localreader"
 	sealing "github.com/filecoin-project/lotus/storage/pipeline"
 	"github.com/google/uuid"
 	carv2 "github.com/ipld/go-car/v2"
@@ -174,12 +175,17 @@ func (p *Provider) execDealUptoAddPiece(ctx context.Context, deal *types.Provide
 		dh.setCancelTransferResponse(errors.New("transfer already complete"))
 		p.dealLogger.Infow(deal.DealUuid, "deal data-transfer can no longer be cancelled")
 	} else if deal.Checkpoint < dealcheckpoints.Transferred {
-		// verify CommP matches for an offline deal
-		if err := p.verifyCommP(deal); err != nil {
-			err.error = fmt.Errorf("error when matching commP for imported data for offline deal: %w", err)
-			return err
+		if os.Getenv("BOOST_SKIP_VERIFY_COMMP") != "true" {
+			// verify CommP matches for an offline deal
+			if err := p.verifyCommP(deal); err != nil {
+				err.error = fmt.Errorf("error when matching commP for imported data for offline deal: %w", err)
+				return err
+			}
+			p.dealLogger.Infow(deal.DealUuid, "commp matched successfully for imported data for offline deal")
+
+		} else {
+			p.dealLogger.Infow(deal.DealUuid, "commp match check is skipped for imported data for offline deal")
 		}
-		p.dealLogger.Infow(deal.DealUuid, "commp matched successfully for imported data for offline deal")
 
 		// update checkpoint
 		if derr := p.updateCheckpoint(pub, deal, dealcheckpoints.Transferred); derr != nil {
@@ -536,13 +542,26 @@ func (p *Provider) addPiece(ctx context.Context, pub event.Emitter, deal *types.
 	if err != nil {
 		return &dealMakingError{
 			retry: types.DealRetryFatal,
-			error: fmt.Errorf("failed to read piece data: %w", err),
+			error: fmt.Errorf("failed to get data reader over CAR file: %w", err),
 		}
 	}
 
+	unPaddedSize := proposal.PieceSize.Unpadded()
+	unPaddedReader, err := padreader.NewInflator(r, size, unPaddedSize)
+	if err != nil {
+		return &dealMakingError{
+			retry: types.DealRetryFatal,
+			error: fmt.Errorf("failed to create inflator: %w", err),
+		}
+	}
+
+	// lgh: hook here!
+	log.Infof("create local car reader for:%s, padded size:%d", deal.InboundFilePath, uint64(unPaddedSize))
+	localPaddedReader := localreader.NewWithUnPaddedReader(deal.InboundFilePath, uint64(unPaddedSize), unPaddedReader)
+
 	// Add the piece to a sector
-	packingInfo, packingErr := p.AddPieceToSector(ctx, *deal, paddedReader)
-	_ = paddedReader.Close()
+	packingInfo, packingErr := p.AddPieceToSector(ctx, *deal, localPaddedReader)
+
 	if packingErr != nil {
 		if ctx.Err() != nil {
 			p.dealLogger.Warnw(deal.DealUuid, "context timed out while trying to add piece")
