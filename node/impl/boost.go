@@ -458,6 +458,7 @@ func (sm *BoostAPI) BoostDagstoreInitializeShard(ctx context.Context, key string
 }
 
 func (sm *BoostAPI) BoostDagstoreRegisterShard(ctx context.Context, key string) error {
+	log.Infof("BoostAPI.BoostDagstoreRegisterShard call, key:%s", key)
 	if sm.DAGStore == nil {
 		return fmt.Errorf("dagstore not available on this node")
 	}
@@ -478,6 +479,8 @@ func (sm *BoostAPI) BoostDagstoreRegisterShard(ctx context.Context, key string) 
 	if err != nil {
 		return fmt.Errorf("parsing shard key as piece cid: %w", err)
 	}
+
+	log.Infof("BoostAPI.BoostDagstoreRegisterShard stores.RegisterShardSync pieceCid:%s", pieceCid)
 	if err = registerShardSync(ctx, sm.DagStoreWrapper, pieceCid, "", true); err != nil {
 		return fmt.Errorf("failed to register shard: %w", err)
 	}
