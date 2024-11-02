@@ -149,6 +149,9 @@ build-go: boost boostd boostx boostd-data booster-http booster-bitswap devnet mi
 build: react build-go
 .PHONY: build
 
+lin: react boost boostd boostx
+.PHONY: lin
+
 calibnet: react calibnet-go
 .PHONY: calibnet
 
