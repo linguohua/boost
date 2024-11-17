@@ -212,7 +212,7 @@ func CreateSectorAccessor(ctx context.Context, storageApiInfo string, fullnodeAp
 
 	// Create the store interface
 	var urls []string
-	lstor, err := paths.NewLocal(ctx, lr, storageService, urls)
+	lstor, err := paths.NewLocal(ctx, lr, storageService, urls, "", "")
 	if err != nil {
 		return nil, nil, fmt.Errorf("creating new local store: %w", err)
 	}

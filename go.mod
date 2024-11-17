@@ -6,6 +6,8 @@ replace github.com/filecoin-project/filecoin-ffi => ./extern/filecoin-ffi
 
 replace github.com/filecoin-project/boostd-data => ./extern/boostd-data
 
+replace github.com/filecoin-project/lotus => ../lotus
+
 require (
 	contrib.go.opencensus.io/exporter/prometheus v0.4.2
 	github.com/BurntSushi/toml v1.3.2
@@ -264,7 +266,6 @@ require (
 	github.com/jbenet/go-temp-err-catcher v0.1.0 // indirect
 	github.com/jbenet/goprocess v0.1.4 // indirect
 	github.com/jessevdk/go-flags v1.4.0 // indirect
-	github.com/joeshaw/multierror v0.0.0-20140124173710-69b34d4ec901 // indirect
 	github.com/josharian/intern v1.0.0 // indirect
 	github.com/kilic/bls12-381 v0.1.0 // indirect
 	github.com/klauspost/compress v1.17.9 // indirect
